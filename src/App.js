@@ -55,7 +55,9 @@ const App = () => {
   const addFunc = async (blog) => {
     try {
       const addedBlog = await blogService.create(blog);
-      setMessage("New blog was successfully added.");
+      setMessage(
+        `New blog ${blog.title} by ${blog.author} was successfully added.`
+      );
       setStat("success");
       setTimeout(() => setMessage(null), 4000);
       setBlogs([...blogs, addedBlog.data]);
