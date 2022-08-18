@@ -1,7 +1,7 @@
 import { useState } from "react";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
-const Blog = ({ blog, updateFunc }) => {
+const Blog = ({ blog, updateFunc, deleteFunc }) => {
   const [button, setButton] = useState("view");
   const [visible, setVisible] = useState(false);
   const [blogObj, setBlogObj] = useState(blog);
@@ -25,9 +25,12 @@ const Blog = ({ blog, updateFunc }) => {
       ...blog,
       likes: blog.likes + 1,
     };
-    console.log(updatedBlog);
     updateFunc(updatedBlog);
     setBlogObj(updatedBlog);
+  };
+
+  const removeBlog = () => {
+    deleteFunc(blog);
   };
 
   return (
@@ -53,16 +56,19 @@ const Blog = ({ blog, updateFunc }) => {
             like
           </button>
         </p>
-        <p>{blog.user.username}</p>
+        {/* <p>{blogObj.user.username}</p> */}
+        <div>
+          <button onClick={removeBlog}>remove</button>
+        </div>
       </div>
     </div>
   );
 };
 
-// BlogForm.propTypes = {
-// updateFunc: PropTypes.func.isRequired,
-// blog: PropTypes.object.isRequired,
-// author: PropTypes.string.isRequired,
-// };
+Blog.propTypes = {
+  updateFunc: PropTypes.func.isRequired,
+  blog: PropTypes.object.isRequired,
+  deleteFunc: PropTypes.func.isRequired,
+};
 
 export default Blog;
