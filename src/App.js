@@ -74,15 +74,36 @@ const App = () => {
   const updateFunc = async (blogLikes) => {
     try {
       const updatedBlog = await blogService.update(blogLikes);
-      console.log(updatedBlog);
-      setMessage(`Thank you for ${updatedBlog.likes} on ${updatedBlog.title}`);
-      setBlogs(
-        blogs.map((blog) => (blog.id !== blogLikes.id ? blog : updatedBlog))
-      );
-      console.log(blogs);
 
+      setMessage(`Thank you for ${blogLikes.likes} on ${blogLikes.title}`);
+      setBlogs(
+        blogs.map((blog) =>
+          blog.id !== blogLikes.id ? blog : updatedBlog.data
+        )
+      );
       setStat("success");
       setTimeout(() => setMessage(null), 4000);
+    } catch (error) {
+      setMessage(error.response.data.error);
+      setTimeout(() => setMessage(null), 4000);
+    }
+  };
+
+  const deleteFunc = async (blogDelete) => {
+    try {
+      if (
+        window.confirm(
+          `Do you really want to remove blog ${blogDelete.title} by ${blogDelete.author}`
+        )
+      ) {
+        await blogService.remove(blogDelete);
+        setMessage(` ${blogDelete.title} deleted`);
+
+        setBlogs(blogs.filter((blog) => blog.id !== blogDelete.id));
+
+        setStat("error");
+        setTimeout(() => setMessage(null), 4000);
+      }
     } catch (error) {
       setMessage(error.response.data.error);
       setTimeout(() => setMessage(null), 4000);
@@ -96,6 +117,7 @@ const App = () => {
       </Togglable>
     );
   };
+  const blogLikes = (a, b) => b.likes - a.likes;
 
   return (
     <div>
@@ -122,8 +144,13 @@ const App = () => {
             logout
           </button>
           {blogForm()}
-          {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} updateFunc={updateFunc} />
+          {blogs.sort(blogLikes).map((blog) => (
+            <Blog
+              key={blog.id}
+              blog={blog}
+              updateFunc={updateFunc}
+              deleteFunc={deleteFunc}
+            />
           ))}
         </div>
       )}
