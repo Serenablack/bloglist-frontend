@@ -71,17 +71,23 @@ const App = () => {
     }
   };
 
-  // const updateFunc = async (blogLikes) => {
-  //   try {
-  //     const updatedBlog = await blogService.update(blogLikes);
-  //     setMessage(`Thank you for ${updatedBlog.likes} on ${updatedBlog.title}`);
-  //     setStat("success");
-  //     setTimeout(() => setMessage(null), 4000);
-  //   } catch (error) {
-  //     setMessage(error.response.data.error);
-  //     setTimeout(() => setMessage(null), 4000);
-  //   }
-  // };
+  const updateFunc = async (blogLikes) => {
+    try {
+      const updatedBlog = await blogService.update(blogLikes);
+      console.log(updatedBlog);
+      setMessage(`Thank you for ${updatedBlog.likes} on ${updatedBlog.title}`);
+      setBlogs(
+        blogs.map((blog) => (blog.id !== blogLikes.id ? blog : updatedBlog))
+      );
+      console.log(blogs);
+
+      setStat("success");
+      setTimeout(() => setMessage(null), 4000);
+    } catch (error) {
+      setMessage(error.response.data.error);
+      setTimeout(() => setMessage(null), 4000);
+    }
+  };
 
   const blogForm = () => {
     return (
@@ -117,7 +123,7 @@ const App = () => {
           </button>
           {blogForm()}
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} updateFunc={updateFunc} />
           ))}
         </div>
       )}

@@ -4,7 +4,7 @@ import { useState } from "react";
 const Blog = ({ blog, updateFunc }) => {
   const [button, setButton] = useState("view");
   const [visible, setVisible] = useState(false);
-  // const [blogObj, setBlogObj] = useState(blog);
+  const [blogObj, setBlogObj] = useState(blog);
 
   const showWhenVisible = { display: visible ? "" : "none" };
 
@@ -21,11 +21,13 @@ const Blog = ({ blog, updateFunc }) => {
   };
 
   const increaseLikes = () => {
-    // const updatedBlog = {
-    //   ...blog,
-    //   likes: blog.likes + 1,
-    // };
-    // updateFunc(updatedBlog);
+    const updatedBlog = {
+      ...blog,
+      likes: blog.likes + 1,
+    };
+    console.log(updatedBlog);
+    updateFunc(updatedBlog);
+    setBlogObj(updatedBlog);
   };
 
   return (
@@ -46,7 +48,7 @@ const Blog = ({ blog, updateFunc }) => {
       <div style={showWhenVisible}>
         <p>{blog.url}</p>
         <p>
-          {blog.likes}
+          {blogObj.likes}
           <button id="like-button" onClick={increaseLikes}>
             like
           </button>
