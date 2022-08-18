@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog";
 import BlogForm from "./components/BlogForm";
 import LoginForm from "./components/LoginForm";
@@ -7,6 +7,7 @@ import Notification from "./components/Notification";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import "./index.css";
+import Togglable from "./components/Togglable";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -16,6 +17,8 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const [alertStat, setStat] = useState("");
+
+  const blogformRef = useRef();
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -61,10 +64,31 @@ const App = () => {
       setStat("success");
       setTimeout(() => setMessage(null), 4000);
       setBlogs([...blogs, addedBlog.data]);
+      blogformRef.current.toggleVisibility();
     } catch (error) {
       setMessage(error.response.data.error);
       setTimeout(() => setMessage(null), 4000);
     }
+  };
+
+  // const updateFunc = async (blogLikes) => {
+  //   try {
+  //     const updatedBlog = await blogService.update(blogLikes);
+  //     setMessage(`Thank you for ${updatedBlog.likes} on ${updatedBlog.title}`);
+  //     setStat("success");
+  //     setTimeout(() => setMessage(null), 4000);
+  //   } catch (error) {
+  //     setMessage(error.response.data.error);
+  //     setTimeout(() => setMessage(null), 4000);
+  //   }
+  // };
+
+  const blogForm = () => {
+    return (
+      <Togglable buttonLabel="new note" ref={blogformRef}>
+        <BlogForm addfunc={addFunc} />
+      </Togglable>
+    );
   };
 
   return (
@@ -91,7 +115,7 @@ const App = () => {
           >
             logout
           </button>
-          <BlogForm addfunc={addFunc} />
+          {blogForm()}
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />
           ))}
