@@ -63,9 +63,6 @@ const BlogForm = ({ addfunc }) => {
 };
 
 BlogForm.propTypes = {
-  title: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
   addfunc: PropTypes.func.isRequired,
 };
 
