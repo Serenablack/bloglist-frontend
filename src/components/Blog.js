@@ -34,7 +34,7 @@ const Blog = ({ blog, updateFunc, deleteFunc }) => {
   };
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className="blog-list">
       <div id="blogshown">
         {blog.title} {blog.author}
         <button
@@ -58,7 +58,9 @@ const Blog = ({ blog, updateFunc, deleteFunc }) => {
         </p>
         {/* <p>{blogObj.user.username}</p> */}
         <div>
-          <button onClick={removeBlog}>remove</button>
+          <button id="remove-button" onClick={removeBlog}>
+            remove
+          </button>
         </div>
       </div>
     </div>
