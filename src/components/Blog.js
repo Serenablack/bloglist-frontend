@@ -35,7 +35,7 @@ const Blog = ({ blog, updateFunc, deleteFunc }) => {
 
   return (
     <div style={blogStyle}>
-      <div>
+      <div id="blogshown">
         {blog.title} {blog.author}
         <button
           type="submit"
@@ -48,7 +48,7 @@ const Blog = ({ blog, updateFunc, deleteFunc }) => {
         </button>
       </div>
 
-      <div style={showWhenVisible}>
+      <div style={showWhenVisible} className="togglableForm">
         <p>{blog.url}</p>
         <p>
           {blogObj.likes}
