@@ -44,13 +44,13 @@ const BlogForm = ({ addfunc }) => {
           author:
           <input
             type="text"
-            id="url"
+            id="author"
             value={author}
             onChange={({ target }) => setAuthor(target.value)}
           />
         </div>
         <button
-          type="create"
+          id="create-button"
           onClick={() => {
             "clicked";
           }}

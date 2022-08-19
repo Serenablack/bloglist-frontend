@@ -3,6 +3,7 @@ module.exports = {
     browser: true,
     es6: true,
     "jest/globals": true,
+    "cypress/globals": true,
   },
   extends: [
     "eslint:recommended",
@@ -18,7 +19,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: "module",
   },
-  plugins: ["react", "import", "jsx-a11y", "jest"],
+  plugins: ["react", "import", "jsx-a11y", "jest", "cypress"],
   rules: {
     "react/prop-types": 0,
     "react/react-in-jsx-scope": "off",
