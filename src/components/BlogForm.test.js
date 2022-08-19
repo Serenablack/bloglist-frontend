@@ -4,11 +4,11 @@ import "@testing-library/jest-dom/extend-expect";
 import BlogForm from "./BlogForm";
 import userEvent from "@testing-library/user-event";
 
-test("<BlogForm /> updates parent state and calls onSubmit", async () => {
+test("<BlogForm /> opens the form for blog submission", async () => {
   const addFunc = jest.fn();
   const user = userEvent.setup();
 
-  render(<BlogForm addFunc={addFunc} />);
+  render(<BlogForm addfunc={addFunc} />);
 
   const input = screen.getAllByRole("textbox");
   const create = screen.getByText("create");
@@ -20,7 +20,7 @@ test("<BlogForm /> updates parent state and calls onSubmit", async () => {
   await user.click(create);
 
   expect(addFunc.mock.calls).toHaveLength(1);
-  expect(addFunc.mock.calls[0][0].content).toBe("typing title");
-  expect(addFunc.mock.calls[0][1].content).toBe("typing url");
-  expect(addFunc.mock.calls[0][2].content).toBe("typing author");
+  expect(addFunc.mock.calls[0][0].title).toBe("typing title");
+  expect(addFunc.mock.calls[0][0].url).toBe("typing url");
+  expect(addFunc.mock.calls[0][0].author).toBe("typing author");
 });

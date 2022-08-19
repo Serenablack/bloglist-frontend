@@ -19,8 +19,8 @@ describe("tests related to blog component", () => {
     render(
       <Blog
         blog={blog}
-        mockupdateFunc={mockupdateFunc}
-        mockdeleteFunc={mockdeleteFunc}
+        updateFunc={mockupdateFunc}
+        deleteFunc={mockdeleteFunc}
       />
     );
     const element = screen.getByText("great Sandhya", { exact: false });
@@ -42,8 +42,7 @@ describe("tests related to blog component", () => {
     await user.click(button);
 
     expect(comp.container).toHaveTextContent(
-      "{https://paranoia.com/garimaTimes}",
-      { exact: false }
+      "https://paranoia.com/garimaTimes"
     );
     expect(comp.container).toHaveTextContent("2");
   });
@@ -52,8 +51,8 @@ describe("tests related to blog component", () => {
     render(
       <Blog
         blog={blog}
-        mockupdateFunc={mockupdateFunc}
-        mockdeleteFunc={mockdeleteFunc}
+        updateFunc={mockupdateFunc}
+        deleteFunc={mockdeleteFunc}
       />
     );
 
