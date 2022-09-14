@@ -38,8 +38,11 @@ describe("Blog app", function () {
     });
 
     describe("When logged in", function () {
-      it("A blog can be created", function () {
+      beforeEach(function () {
         cy.login({ username: "freaky", password: "sparrow" });
+      });
+      it("A blog can be created", function () {
+        // cy.login({ username: "freaky", password: "sparrow" });
         cy.contains("new note").click();
         cy.get("#title").type("First class tests");
         cy.get("#url").type(
@@ -57,7 +60,7 @@ describe("Blog app", function () {
         //   .and("have.css", "color", "rgb(0, 255, 0)");
       });
       it("user can like a blog", function () {
-        cy.login({ username: "freaky", password: "sparrow" });
+        // cy.login({ username: "freaky", password: "sparrow" });
 
         cy.contains("new note").click();
         cy.get("#title").type("First class tests");
@@ -74,21 +77,38 @@ describe("Blog app", function () {
       });
 
       it("Only blog created by user can be deleted by them", function () {
-        cy.login({ username: "freaky", password: "sparrow" });
+        // cy.login({ username: "freaky", password: "sparrow" });
         cy.contains("new note").click();
         cy.get("#title").type("First class tests");
         cy.get("#url").type(
           "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html"
         );
+        it("Only blog created by user can be deleted by them", function () {
+          // cy.login({ username: "freaky", password: "sparrow" });
+          cy.contains("new note").click();
+          cy.get("#title").type("First class tests");
+          cy.get("#url").type(
+            "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html"
+          );
+          cy.get("#author").type("Edsger W. Dijkstra");
+          cy.get("#create-button").click();
+          cy.contains("First class tests Edsger W. Dijkstra");
+          cy.contains("view").click();
+          cy.get("#remove-button").click();
+          cy.get("html").should(
+            "not.contain",
+            "First class tests Edsger W. Dijkstra"
+          );
+        });
         cy.get("#author").type("Edsger W. Dijkstra");
         cy.get("#create-button").click();
         cy.contains("First class tests Edsger W. Dijkstra");
         cy.contains("view").click();
         cy.get("#remove-button").click();
-        // cy.get("html").should(
-        //   "not.contain",
-        //   "First class tests Edsger W. Dijkstra"
-        // );
+        cy.get("html").should(
+          "not.contain",
+          "First class tests Edsger W. Dijkstra"
+        );
       });
 
       describe("blog arranged in terms of likes", function () {
@@ -114,7 +134,7 @@ describe("Blog app", function () {
           cy.contains("Blog3 Shake").parent().as("blog3");
         });
 
-        it.only("blogs are ordered according to likes in descending order", function () {
+        it("blogs are ordered according to likes in descending order", function () {
           cy.get("@blog1").contains("view").click();
           cy.get("@blog1").contains("like").click();
           cy.wait(500);
